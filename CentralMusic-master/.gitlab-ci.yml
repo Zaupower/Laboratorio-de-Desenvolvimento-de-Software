@@ -1,0 +1,36 @@
+image: microsoft/dotnet:latest
+
+stages:
+    - build
+    - test
+    
+before_script:
+    - dotnet restore
+
+variables:
+  project: "CentralMusic/CentralMusicAPI"
+  test: "CentralMusic/CentralMusicTestsAPI"
+
+build:
+    stage: build
+    tags:
+        - estg
+    only:
+        refs:
+        - Develop
+        - master        
+    script:
+        - "cd $project"
+        - 'dotnet restore'
+        - 'dotnet build'
+test:
+    stage: test
+    tags:
+        - estg
+    only:
+        refs:
+        - Develop
+        - master  
+    script: 
+        - "cd $test"
+        - 'dotnet test'
